@@ -1,8 +1,9 @@
 import "./post.css"
 import {MoreVert, Favorite} from "@material-ui/icons"
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-export default function Post() {
+export default function Post(props) {
 
     // const [like, setLike] = useState(like)
     // const [isLiked, isSetLiked] = useState(false)
@@ -16,8 +17,10 @@ export default function Post() {
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
-                        <img className="postProfileImg" src="https://www.lempertz.com/lempertz_api/images/1110-457-Henri-Matisse-Nadia-au-sourir.jpg" /> 
-                        <span className="postUsername">David Hockney</span>
+                        <Link to={`profile/${props.post.user.username}`}>
+                        <img className="postProfileImg" src={props.post.user.profilePicture} /> 
+                        </Link>
+                        <span className="postUsername">{props.post.user.username}</span>
                         <span className="postDate">5 mins ago</span>
                     </div>
                     <div className="postTopRight">
@@ -26,8 +29,8 @@ export default function Post() {
 
                 </div>
                 <div className="postCenter">
-                    <span className="postText">Hey! it's my first post</span>
-                    <img className="postImg" src="https://artsy-media-uploads.s3.amazonaws.com/1yNRKmk8Yil-Cx2jpIWa3A%2Fcustom-Custom_Size___Hockney+2.jpg"/>
+                    <span className="postText">{props.post.content}</span>
+                    <img className="postImg" src={props.post.img}/>
                 </div>
                 <div className="postBottom">
                     <div className="postBottomLeft">

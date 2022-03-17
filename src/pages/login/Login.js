@@ -1,10 +1,44 @@
 import "./login.css"
 import Topbar from '../../components/topbar/Topbar'
+import axios from 'axios'
+import {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
+
+const API_BASE_URL = "http://localhost:8000"
 
 export default function Login() {
+    
+    const navigate = useNavigate()
+    const [user, setUser] = useState({
+        email: "", 
+        password: ""
+    })
+
+    const handleInput = (e) => {
+        const {name, value} = e.target
+        setUser({
+            ...user,
+            [name]: value
+        })
+    }
+
+    const handleClick = async (e) => {
+        e.preventDefault()
+        try{
+            const res = await axios.post(`${API_BASE_URL}/login`, user)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+            console.log('res', res);
+            localStorage.setItem('jwt', res.data.token)
+            navigate('/')
+
+        }catch(err){
+            console.log('login err',err);
+        }
+    }
+
+
     return (
         <div>
-            <Topbar />
         <div className="login">
             <div className="loginWrapper">
                 <div className="loginLeft">
@@ -14,12 +48,21 @@ export default function Login() {
                     </span>
                 </div>
                 <div className="loginRight">
-                    <div className="loginBox">
-                        <input placeholder="Email" className="loginInput"/>
-                        <input placeholder="Password" className="loginInput"/>
+                    <form className="loginBox" onSubmit={handleClick}>
+                        <input 
+                            placeholder="Email" 
+                            name="email" 
+                            className="loginInput" 
+                            onChange={handleInput}/>
+                        <input 
+                            placeholder="Password" 
+                            name="password" 
+                            type="password" 
+                            className="loginInput" 
+                            onChange={handleInput}/>
                         <button className="loginButton"> Log In </button>
-                        <button className="loginRegisterButton">Sign Up</button>
-                    </div>
+                        <button className="loginRegisterButton" onClick={ () => {navigate('/register')}}>Sign Up</button>
+                    </form>
                 </div>
             </div>
             

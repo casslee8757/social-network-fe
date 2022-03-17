@@ -1,10 +1,47 @@
 import "./register.css"
 import Topbar from '../../components/topbar/Topbar'
+import {useState} from 'react'
+import axios from 'axios'
+import { CardTravelSharp, TonalitySharp } from '@material-ui/icons'
+import {useNavigate} from 'react-router-dom'
+
+
+const API_BASE_URL = "http://localhost:8000"
 
 export default function Register() {
+    const navigate = useNavigate()
+
+    const [signup, setSignup] = useState({
+        username: '',
+        passwordDigest: '',
+        email: ''
+    })
+
+    const handleInput = (e) => {
+        const { name, value } = e.target
+        setSignup({ ...signup, [name]: value})
+    }
+
+    const handleClick = async (e) => {
+        e.preventDefault()
+        const {username, passwordDigest, email} = signup
+        try{
+            const res = await axios.post(`${API_BASE_URL}/register`, signup)
+            navigate('/login')
+
+            if(res.success === true){
+                setSignup({username: '', email: '', passwordDigest: ''});
+                res.success("Sign up successful")
+            }
+
+        }catch(err){
+            console.log('register err', err);
+        }
+    }
+
+
     return (
         <div>
-            <Topbar />
         <div className="login">
             <div className="loginWrapper">
                 <div className="loginLeft">
@@ -14,14 +51,33 @@ export default function Register() {
                     </span>
                 </div>
                 <div className="loginRight">
-                    <div className="loginBox">
-                        <input placeholder="Username" className="loginInput"/>
-                        <input placeholder="Email" className="loginInput"/>
-                        <input placeholder="Password" className="loginInput"/>
-                        <input placeholder="Password Again" className="loginInput"/>
+                    <form className="loginBox" onSubmit={handleClick}>
+                        <input 
+                            placeholder="Username" 
+                            name="username" 
+                            type="username" 
+                            className="loginInput" 
+                            onChange={handleInput}/>
+                        <input 
+                            placeholder="Email" 
+                            name="email" 
+                            type="email" 
+                            className="loginInput" 
+                            onChange={handleInput}/>
+                        <input 
+                            placeholder="Password" 
+                            name="passwordDigest" 
+                            type="password" 
+                            className="loginInput" 
+                            onChange={handleInput}/>
+                        <input 
+                            placeholder="Password Confirm" 
+                            name="password"
+                            type="password" 
+                            className="loginInput" />
                         <button className="loginButton"> Sign Up </button>
-                        <button className="loginRegisterButton">Log In</button>
-                    </div>
+                        
+                    </form>
                 </div>
             </div>
             

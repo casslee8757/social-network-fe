@@ -1,15 +1,26 @@
 import "./sidebar.css"
-import {RssFeed, Chat, Bookmark, SportsEsports} from "@material-ui/icons"
+import {RssFeed, Chat, Bookmark, SportsEsports, AccountBox} from "@material-ui/icons"
+import { Link } from 'react-router-dom'
+
 
 export default function Sidebar() {
     return (
         <div className="sidebar">
             <div className="slidebarWrapper">
                 <ul className="sidebarList">
-                    <li className="sidebarListItem">
+                    <Link className= "feedLink" to={'/'}>
+                        <li className="sidebarListItem">
                         <RssFeed className = "sidebarIcon"/>
                         <span className="sidebarListItemText">Feed</span>
-                    </li>
+                        </li>
+                    </Link>
+
+                    <Link className= "feedLink" to={"/profile/:username"}>
+                        <li className="sidebarListItem">
+                        <AccountBox className = "sidebarIcon"/>
+                        <span className="sidebarListItemText">Profile</span>
+                        </li>
+                    </Link>
 
                     <li className="sidebarListItem">
                         <Chat className = "sidebarIcon"/>
