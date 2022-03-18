@@ -3,7 +3,8 @@ import {RssFeed, Chat, Bookmark, SportsEsports, AccountBox} from "@material-ui/i
 import { Link } from 'react-router-dom'
 
 
-export default function Sidebar() {
+export default function Sidebar(props) {
+    console.log('props', props);
     return (
         <div className="sidebar">
             <div className="slidebarWrapper">
@@ -14,8 +15,7 @@ export default function Sidebar() {
                         <span className="sidebarListItemText">Feed</span>
                         </li>
                     </Link>
-
-                    <Link className= "feedLink" to={"/profile/:username"}>
+                    <Link className= "feedLink" to={`/profile/${props.user._id}`}>
                         <li className="sidebarListItem">
                         <AccountBox className = "sidebarIcon"/>
                         <span className="sidebarListItemText">Profile</span>

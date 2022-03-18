@@ -98,3 +98,11 @@
 .linkToHome{
     text-decoration: none;
 }
+
+.topbarUser{
+    display: flex;
+}
+.userName{
+    margin: 8px;
+    cursor: pointer
+}

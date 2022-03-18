@@ -48,33 +48,22 @@ export default function Share(props) {
         }
     }
 
- 
-
-    // const submitHandler = async (e) => {
-    //     e.preventDefault();
+  
+    const uploadImage = () => {
         
-
-    //     if(file){
-    //         const data = new FormData();
-    //         const fileName = Date.now() + file.name
-    //         data.append("file", file)
-    //         data.append("name", fileName)
-    //         newPost.img = fileName
-    //         // try{
-    //         //     await azio
-    //         // }catch{
-    //         //     console.log('file', err);
-    //         // }
-    //     }
-
-    //     try {
-    //         const res = await axios.post(`${BASE_URL}/posts`, newPost)
-    //     }catch(err){
-    //         console.log('submithandler', err);
-    //     }
-
-
-    // }
+        console.log('window', window.cloudinary);
+        const myWidget = window.cloudinary.createUploadWidget({
+            cloudName: `dddy1dyjj`, 
+            uploadPreset: `rohudcue`}, (error, result) => { 
+              if (!error && result && result.event === "success") { 
+                console.log('Done! Here is the image info: ', result.info); 
+              }
+            }
+        )
+        myWidget.open()
+    }
+    
+   
 
     return (
         <div className="share">   
@@ -103,12 +92,15 @@ export default function Share(props) {
                             <span className="shareOptionText"> Photo/Video</span>
                             <input 
                                 style={{ display: "none" }}
-                                type="file" 
+                                // type="file" 
                                 name="file"
                                 id="file" 
-                                multiple accept="image/*"
-                                onChange={handleImage}                           
+                                // multiple accept="image/*"
+                                onChange={handleImage} 
+                                onClick={uploadImage}
+                                                          
                             />
+                           
                         </label>
                         
                         <div className="shareOption">

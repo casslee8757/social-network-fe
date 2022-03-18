@@ -2,31 +2,9 @@ import React from 'react'
 import "./topbar.css"
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
 
+export default function Topbar(props) {
 
-const BASE_URL = "http://localhost:8000"
-
-export default function Topbar() {
-
-    const [user, setUser] = useState([])
-
-    useEffect( () => {
-        const fetchUser = async() => {
-            try{
-                const res = await axios.get(`${BASE_URL}/user/details`)
-                console.log('time response', res);
-                setUser(res.data)
-    
-            } catch(err){
-                console.log('err', err);
-            }
-    
-        }
-        fetchUser()
-    }, [] )
-    console.log('user', user);
 
     return (
         <div className = "topbarContainer">
@@ -57,7 +35,10 @@ export default function Topbar() {
                         <span className="topbarIconBadge">1</span>
                     </div>
                 </div>
-                <img src={user.profilePicture} alt="" className="topbarImg"/>
+                <div className="topbarUser">
+                    <img src={props.user.profilePicture} alt="" className="topbarImg"/>
+                    <span className="userName">{props.user.username}</span>
+                </div>
             </div>
         </div>
     )

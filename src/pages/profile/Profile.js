@@ -3,7 +3,7 @@ import Topbar from "../../components/topbar/Topbar"
 import Sidebar from '../../components/sidebar/Sidebar'
 import Feed from "../../components/feed/Feed"
 
-export default function Profile() {
+export default function Profile(props) {
     return (
         <>
             <div className="profile">
