@@ -6,27 +6,16 @@ import axios from 'axios'
 const BASE_URL = "http://localhost:8000"
 
 
-export default function Share() {
-
+export default function Share(props) {
     const [user, setUser] = useState([])
-    const [file, setFile] = useState(null)
-    const [newPost, setNewPost] = useState({ content: "" })
-
-    const handleInput = (e) => {
-        console.log('name value',e, name, value);
-        const {name, value} = e.target
-        setNewPost({
-            ...newPost,
-            [name]: value
-        })
-        console.log('new Post', newPost, name, value);
-    }
+    const [image, setImage] = useState([])
+    const [post, setPost] = useState('')
 
     useEffect( () => {
         const fetchUser = async() => {
             try{
                 const res = await axios.get(`${BASE_URL}/user/details`)
-                console.log('time response', res);
+                // console.log('time response', res);
                 setUser(res.data)
     
             } catch(err){
@@ -37,9 +26,29 @@ export default function Share() {
         fetchUser()
     }, [] )
 
-    console.log('user', user);
+    // console.log('user', user);
 
-    
+    const handleImage = async (e) => {
+        const file = e.target.files[0]
+        image.push(file)
+        console.log('file', file);
+        setImage([ ...image])
+    }
+
+    const handleSubmit = async (e) => {
+        
+        e.preventDefault();
+       
+        try {
+            const res = await axios.post(`${BASE_URL}/create/posts`, {content: post, image})
+            console.log('handlepost', res.data);
+            props.setPosts(posts => [res.data, ...posts ])
+        }catch(err){
+            console.log('submithandler', err);
+        }
+    }
+
+ 
 
     // const submitHandler = async (e) => {
     //     e.preventDefault();
@@ -74,12 +83,20 @@ export default function Share() {
                     <img className="shareProfileImg" src={user.profilePicture}/> 
                     <input 
                         placeholder={`What's in your mind ${user.username}?`} className="shareInput" 
-                        name="content"
-                        onChange={ async() => await handleInput}
+                        value={post}
+                        onChange={e => setPost(e.target.value)}
                         />
                 </div>
                 <hr className="shareHr"/>
-                <form className="shareBottom" >
+
+                {/* <div className="showImage">
+                    {
+                        <img src={URL.createObjectURL(image)} alt="image"/>
+                    }
+                </div> */}
+
+
+                <form className="shareBottom" onSubmit={handleSubmit}>
                     <div className="shareOptions">
                         <label htmlFor="file" className="shareOption">
                             <PermMedia htmlColor="tomato" className="shareIcon"/>
@@ -87,10 +104,11 @@ export default function Share() {
                             <input 
                                 style={{ display: "none" }}
                                 type="file" 
+                                name="file"
                                 id="file" 
-                                accept=".png, .jpeg, .jpg" 
-                                onChange={(e) => setFile(e.target.files[0])  
-                            }/>
+                                multiple accept="image/*"
+                                onChange={handleImage}                           
+                            />
                         </label>
                         
                         <div className="shareOption">
