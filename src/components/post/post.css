@@ -76,3 +76,14 @@
     border-bottom: 1px dashed gray;
     font-size: 15px;
 }
+
+.postForm {
+    display: flex;
+    margin-top: 20px;
+
+}
+
+.postInput{
+    flex: 1
+}
+

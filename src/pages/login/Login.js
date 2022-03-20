@@ -4,7 +4,9 @@ import axios from 'axios'
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-const API_BASE_URL = "http://localhost:8000"
+// const BASE_URL = "http://localhost:8000"
+const BASE_URL = "https://casebook2022.herokuapp.com"
+
 
 export default function Login(props) {
     
@@ -25,7 +27,7 @@ export default function Login(props) {
     const handleClick = async (e) => {
         e.preventDefault()
         try{
-            const res = await axios.post(`${API_BASE_URL}/login`, user)
+            const res = await axios.post(`${BASE_URL}/login`, user)
             axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
             console.log('res', res);
             localStorage.setItem('jwt', res.data.token)

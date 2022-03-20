@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Picker from 'emoji-picker-react'
 
-const BASE_URL = "http://localhost:8000"
+// const BASE_URL = "http://localhost:8000"
+const BASE_URL = "https://casebook2022.herokuapp.com"
+
 
 
 export default function Share(props) {

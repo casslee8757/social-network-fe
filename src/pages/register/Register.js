@@ -2,11 +2,12 @@ import "./register.css"
 import Topbar from '../../components/topbar/Topbar'
 import {useState} from 'react'
 import axios from 'axios'
-import { CardTravelSharp, TonalitySharp } from '@material-ui/icons'
 import {useNavigate} from 'react-router-dom'
 
 
-const API_BASE_URL = "http://localhost:8000"
+// const BASE_URL = "http://localhost:8000"
+const BASE_URL = "https://casebook2022.herokuapp.com"
+
 
 export default function Register() {
     const navigate = useNavigate()
@@ -26,7 +27,7 @@ export default function Register() {
         e.preventDefault()
         const {username, passwordDigest, email} = signup
         try{
-            const res = await axios.post(`${API_BASE_URL}/register`, signup)
+            const res = await axios.post(`${BASE_URL}/register`, signup)
             navigate('/login')
 
             if(res.success === true){

@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 
-
-const BASE_URL = "http://localhost:8000"
+const BASE_URL = "https://casebook2022.herokuapp.com"
+// const BASE_URL = "http://localhost:8000"
 
 
 const ProtectedRoute = ({ user, children }) => {
