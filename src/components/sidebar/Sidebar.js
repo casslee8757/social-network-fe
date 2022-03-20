@@ -1,10 +1,18 @@
 import "./sidebar.css"
-import {RssFeed, Chat, Bookmark, SportsEsports, AccountBox} from "@material-ui/icons"
-import { Link } from 'react-router-dom'
+import {RssFeed, Chat, Bookmark, SportsEsports, AccountBox, ExitToApp} from "@material-ui/icons"
+import { Link, useNavigate } from 'react-router-dom'
 
 
 export default function Sidebar(props) {
     console.log('props', props);
+    const navigate = useNavigate()
+
+    const logout = () => {
+        localStorage.clear();
+        navigate('/login')
+
+    }
+    
     return (
         <div className="sidebar">
             <div className="slidebarWrapper">
@@ -15,7 +23,7 @@ export default function Sidebar(props) {
                         <span className="sidebarListItemText">Feed</span>
                         </li>
                     </Link>
-                    <Link className= "feedLink" to={`/profile/${props.user._id}`}>
+                    <Link className= "feedLink" to={`/profile/${props.userId}`}>
                         <li className="sidebarListItem">
                         <AccountBox className = "sidebarIcon"/>
                         <span className="sidebarListItemText">Profile</span>
@@ -35,6 +43,10 @@ export default function Sidebar(props) {
                     <li className="sidebarListItem">
                         <SportsEsports className = "sidebarIcon"/>
                         <span className="sidebarListItemText">Games</span>
+                    </li>
+                    <li className="sidebarListItem" onClick={logout}>
+                        <ExitToApp className = "sidebarIcon"/>
+                        <span className="sidebarListItemText">Log Out</span>
                     </li>
                 </ul>
                 <hr className="sidebarHr"/>

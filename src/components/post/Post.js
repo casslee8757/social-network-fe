@@ -1,27 +1,50 @@
 import "./post.css"
-import {MoreVert, Favorite} from "@material-ui/icons"
-import { useState } from 'react'
+import {MoreVert, Favorite, FavoriteBorder, PanToolSharp} from "@material-ui/icons"
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { format } from "timeago.js";
+import axios from 'axios'
+
+const BASE_URL = "http://localhost:8000"
 
 export default function Post(props) {
 
-    // const [like, setLike] = useState(like)
-    // const [isLiked, isSetLiked] = useState(false)
+    const [like, setLike] = useState(props.post.likes) 
+    const [isLiked, setIsLiked] = useState(false)
+    const currentUser = props.post.user
 
-    // const likeHandler = () => {
-    //     setLike( isLiked ? like-1 : like+1 )
-    // }
+    // useEffect( () => {
+    //     setIsLiked(props.post.likes.includes(currentUser._id))
+    // }, [currentUser._id, props.post.likes] )
+    
+    const likeHandler = async () => {
+        try {
+            const res = await axios.put(`${BASE_URL}/likes`, {postId: props.post._id})
+            console.log('likehandler', res);
+           
+        }catch(err){
+            console.log('submithandler', err);
+        }
+        setLike(isLiked ? like - 1 : like + 1);
+        setIsLiked(!isLiked)
+        // console.log('like?', isLiked);
+    }
+
+   
+
+      
+
 
     return (
         <div className="post">
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
-                        <Link to={`profile/${props.post.user.username}`}>
-                        <img className="postProfileImg" src={props.post.user.profilePicture} /> 
+                        <Link to={`profile/${currentUser.username}`}>
+                        <img className="postProfileImg" src={currentUser.profilePicture ? currentUser.profilePicture : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIGWpazPhczs6kXKWOi1u8rTg2YeHKzCsEAQWd5EuLi4RY0qhEQTqgwBSLzsUpq74hOcU&usqp=CAU`} /> 
                         </Link>
-                        <span className="postUsername">{props.post.user.username}</span>
-                        <span className="postDate">5 mins ago</span>
+                        <span className="postUsername">{currentUser.username}</span>
+                        <span className="postDate">{format(props.post.createdAt)}</span>
                     </div>
                     <div className="postTopRight">
                         <MoreVert />
@@ -34,8 +57,19 @@ export default function Post(props) {
                 </div>
                 <div className="postBottom">
                     <div className="postBottomLeft">
-                        <Favorite htmlColor="red" className="likeIcon" /> 
-                        <span className="postLikeCounter"> 32 people liked it</span>
+                       
+                        {
+                            like
+                            ?
+                            <Favorite htmlColor="red" onClick={likeHandler}
+                            />
+                            : 
+                            <FavoriteBorder onClick={likeHandler}
+                            />
+            
+                        }
+                        
+                        <span className="postLikeCounter">{like} people liked it</span>
                     </div>
                     <div className="postBottomRight">
                         <span className="postCommentText"> 9 comments</span>

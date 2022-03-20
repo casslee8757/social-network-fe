@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom'
 
 const API_BASE_URL = "http://localhost:8000"
 
-export default function Login() {
+export default function Login(props) {
     
     const navigate = useNavigate()
     const [user, setUser] = useState({
@@ -29,6 +29,7 @@ export default function Login() {
             axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
             console.log('res', res);
             localStorage.setItem('jwt', res.data.token)
+            props.setCurrentUser(res.data.user)
             navigate('/')
 
         }catch(err){

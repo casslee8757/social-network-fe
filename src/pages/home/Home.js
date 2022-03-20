@@ -11,7 +11,7 @@ export default function Home(props) {
         <>
     
         <div className="homeContainer">
-            <Sidebar user={props}/>
+            <Sidebar userId={props.user._id}/>
             <Feed/>
 
         </div>

@@ -6,6 +6,12 @@ import Feed from "../../components/feed/Feed"
 export default function Profile(props) {
     return (
         <>
+            {!props.user._id 
+             ?  
+            <button className="rightbarFollowButton"></button>
+            :
+             <p></p>
+            }
             <div className="profile">
                 <div className="sidebar">
 
@@ -14,12 +20,12 @@ export default function Profile(props) {
                 <div className="profileRight">
                     <div className="profileRightTop">
                         <div className="profileCover">
-                        <img className="profileCoverImg" src="https://www.moma.org/d/assets/W1siZiIsIjIwMTUvMTAvMjAvOXBxeDR1dG9mMF9tYXRpc3NlY3V0b3V0LmpwZyJdLFsicCIsImNvbnZlcnQiLCItcXVhbGl0eSA5MCAtcmVzaXplIDIwMDB4NjY3XiAtZ3Jhdml0eSBDZW50ZXIgLWNyb3AgMjAwMHg2NjcrMCswIl1d/matissecutout.jpg?sha=08f7376b7ca84d59"/>
-                        <img className="profileUserImg" src="https://www.lempertz.com/lempertz_api/images/1110-457-Henri-Matisse-Nadia-au-sourir.jpg"/>
+                        <img className="profileCoverImg" src={props.user.profileCover}/>
+                        <img className="profileUserImg" src={props.user.profilePicture}/>
 
                     </div>
                         <div className="profileInfo">
-                            <h4 className="profileInfoName">CassLee</h4>
+                            <h4 className="profileInfoName">{props.user.username}</h4>
                             
                         </div>
                     </div>

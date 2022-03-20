@@ -2,13 +2,14 @@ import "./share.css"
 import { PermMedia,  EmojiEmotions } from "@material-ui/icons"
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Picker from 'emoji-picker-react'
 
 const BASE_URL = "http://localhost:8000"
 
 
 export default function Share(props) {
     const [user, setUser] = useState([])
-    const [image, setImage] = useState([])
+    const [image, setImage] = useState('')
     const [post, setPost] = useState('')
 
     useEffect( () => {
@@ -26,21 +27,14 @@ export default function Share(props) {
         fetchUser()
     }, [] )
 
-    // console.log('user', user);
-
-    const handleImage = async (e) => {
-        const file = e.target.files[0]
-        image.push(file)
-        console.log('file', file);
-        setImage([ ...image])
-    }
+   
 
     const handleSubmit = async (e) => {
         
         e.preventDefault();
        
         try {
-            const res = await axios.post(`${BASE_URL}/create/posts`, {content: post, image})
+            const res = await axios.post(`${BASE_URL}/create/posts`, {content: post, img: image})
             console.log('handlepost', res.data);
             props.setPosts(posts => [res.data, ...posts ])
         }catch(err){
@@ -51,12 +45,12 @@ export default function Share(props) {
   
     const uploadImage = () => {
         
-        console.log('window', window.cloudinary);
         const myWidget = window.cloudinary.createUploadWidget({
             cloudName: `dddy1dyjj`, 
             uploadPreset: `rohudcue`}, (error, result) => { 
               if (!error && result && result.event === "success") { 
                 console.log('Done! Here is the image info: ', result.info); 
+                setImage(result.info.secure_url)
               }
             }
         )
@@ -78,13 +72,6 @@ export default function Share(props) {
                 </div>
                 <hr className="shareHr"/>
 
-                {/* <div className="showImage">
-                    {
-                        <img src={URL.createObjectURL(image)} alt="image"/>
-                    }
-                </div> */}
-
-
                 <form className="shareBottom" onSubmit={handleSubmit}>
                     <div className="shareOptions">
                         <label htmlFor="file" className="shareOption">
@@ -95,18 +82,14 @@ export default function Share(props) {
                                 // type="file" 
                                 name="file"
                                 id="file" 
-                                // multiple accept="image/*"
-                                onChange={handleImage} 
+                                value={image}
                                 onClick={uploadImage}
                                                           
                             />
                            
                         </label>
                         
-                        <div className="shareOption">
-                            <EmojiEmotions htmlColor="orange"className="shareIcon"/>
-                            <span className="shareOptionText"> Feeling</span>
-                        </div>
+                        
                     </div>
                     <button className="shareButton" type="submit">Share</button>
                 </form>

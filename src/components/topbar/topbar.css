@@ -1,3 +1,6 @@
+
+
+
 .topbarContainer {
     height: 70px;
     width: 100%;
@@ -32,17 +35,19 @@
     border-radius: 30px;
     display: flex;
     align-items: center;
+    padding: 5px
 }
 
 .searchIcon{
-    font-size: 20px !important;
+    font-size: 25px !important;
     margin-left: 10px;
 }
 
 .searchInput{
     border:none;
-    /* padding: 10px; */
     width: 70%;
+    margin: 30px;
+    font-size: 20px;
 
 }
 
@@ -105,4 +110,45 @@
 .userName{
     margin: 8px;
     cursor: pointer
+}
+
+.inputResults {
+    margin-top: 5px;
+    width: 300px;
+    height: 200px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow: hidden;
+    overflow-y: auto;
+    position: absolute;
+    top: 51px;
+    left: 37%;
+
+}
+
+.inputResults .inputResultsList{
+    
+    margin-right: 10px;
+    display: flex;
+    align-items: cneter;
+    color: black;
+    font-size: 20px;
+    padding: 15px;
+}
+
+.inputResultsList{
+    margin-left: 10px;
+}
+
+.inputResultsList a {
+    text-decoration: none;
+
+}
+
+.inputResultsList a:hover{
+    background-color: rgb(241, 241, 242);
+}
+
+#clearBtn {
+    cursor: pointer;
 }
