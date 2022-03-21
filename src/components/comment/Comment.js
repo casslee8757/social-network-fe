@@ -8,16 +8,16 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
 
-export default function Comment(props) {
+export default function Comment({comment}) {
     return (
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
             
         <ListItem alignItems="flex-start">
             <ListItemAvatar>
-                <Avatar alt="Travis Howard" src={props.user.profilePicture} />
+                <Avatar alt="user" src={comment.user.profilePicture} />
             </ListItemAvatar>
             <ListItemText
-                primary={props.user.username}
+                primary={comment.user.username}
                 secondary={
                     <React.Fragment>
                         <Typography
@@ -26,7 +26,7 @@ export default function Comment(props) {
                             variant="body2"
                             color="text.primary"
                         >
-                            comment section
+                           {comment.body}
                         </Typography>
                     </React.Fragment>
                 }

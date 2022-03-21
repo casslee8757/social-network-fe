@@ -1,5 +1,5 @@
 import "./post.css"
-import {MoreVert, Favorite, FavoriteBorder } from "@material-ui/icons"
+import {MoreVert, Favorite, FavoriteBorder, CommentTwoTone } from "@material-ui/icons"
 import {TextField, Button} from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -13,26 +13,28 @@ const BASE_URL = "https://casebook2022.herokuapp.com"
 
 export default function Post(props) {
 
-    const [like, setLike] = useState(props.post.likes) 
+    const [like, setLike] = useState(props.post.likes.length) 
     const [isLiked, setIsLiked] = useState(false)
     const currentUser = props.post.user
-    const [comment, setComment] = useState('')
+    const [userComment, setUserComment] = useState('')
+    const [comments, setComments] = useState(props.post.comments)
 
     useEffect( () => {
         setIsLiked(props.post.likes.includes(currentUser._id))
     }, [currentUser._id, props.post.likes] )
+
     
     const likeHandler = async () => {
         try {
             const res = await axios.put(`${BASE_URL}/likes`, {postId: props.post._id})
-            console.log('likehandler', res);
+            // console.log('likehandler', res);
            
         }catch(err){
             console.log('submithandler', err);
         }
         setLike(isLiked ? like - 1 : like + 1);
         setIsLiked(!isLiked)
-        console.log('like?', isLiked);
+        // console.log('like?', isLiked);
     }
 
    
@@ -41,11 +43,11 @@ export default function Post(props) {
    const handleSubmit = async (e) => {
         
     e.preventDefault();
-    console.log(comment);
     try {
-        const res = await axios.post(`${BASE_URL}/comment`, {comment: comment})
+        const res = await axios.post(`${BASE_URL}/comment`, {comment: userComment, postId: props.post._id})
+        console.log(userComment);
         console.log('handlepost', res.data);
-        props.setComment(comments => [res.data, ...comments])
+        setComments([...comments, res.data])
     }catch(err){
         console.log('submithandler', err);
     }
@@ -58,7 +60,9 @@ export default function Post(props) {
                 <div className="postTop">
                     <div className="postTopLeft">
                         <Link to={`profile/${currentUser.username}`}>
-                        <img className="postProfileImg" src={currentUser.profilePicture ? currentUser.profilePicture : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIGWpazPhczs6kXKWOi1u8rTg2YeHKzCsEAQWd5EuLi4RY0qhEQTqgwBSLzsUpq74hOcU&usqp=CAU`} /> 
+                        <img 
+                            className="postProfileImg" 
+                            src= {currentUser.profilePicture ? currentUser.profilePicture : `https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIGWpazPhczs6kXKWOi1u8rTg2YeHKzCsEAQWd5EuLi4RY0qhEQTqgwBSLzsUpq74hOcU&usqp=CAU`} /> 
                         </Link>
                         <span className="postUsername">{currentUser.username}</span>
                         <span className="postDate">{format(props.post.createdAt)}</span>
@@ -79,21 +83,26 @@ export default function Post(props) {
                             like
                             ?
                             <Favorite htmlColor="red" onClick={likeHandler}
+                            
                             />
+                        
                             : 
                             <FavoriteBorder onClick={likeHandler}
                             />
             
                         }
                         
-                        <span className="postLikeCounter">{props.post.likes.length} people liked it</span>
+                        <span className="postLikeCounter">
+                            {like } people liked it</span>
                     </div>
                     <div className="postBottomRight">
-                        <span className="postCommentText"> 9 comments</span>
+                        <span className="postCommentText"> {comments.length} comments</span>
                     </div>
                 </div>
                 <div className="comments">
-                    <Comment user={props.post.user}/>
+                    
+                     {comments.map( (c) => <Comment key={c._id} comment={c}/>)}
+                    
                 </div>
                 <form className="postForm" onSubmit={handleSubmit}>
                     <TextField
@@ -102,8 +111,8 @@ export default function Post(props) {
                         variant="outlined"
                         className="postInput"
                         placeholder="Add comment"
-                        value={comment}
-                        onChange={e => setComment(e.target.value)}
+                        value={userComment}
+                        onChange={e => setUserComment(e.target.value)}
                     />
                     <Button
                         variant="contained"

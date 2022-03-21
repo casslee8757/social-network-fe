@@ -3,9 +3,11 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Topbar from './components/topbar/Topbar';
 import Profile from './pages/profile/Profile'
+import EditProfile from './pages/profile/EditProfile';
 import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import Game from './components/game/Game';
 
 const BASE_URL = "https://casebook2022.herokuapp.com"
 // const BASE_URL = "http://localhost:8000"
@@ -70,6 +72,8 @@ function App() {
                 <Route exact path="/login" element= {<Login setCurrentUser={setCurrentUser}/>} />
                 <Route exact path="/register" element= {<Register/>} />
                 <Route exact path="/profile/:id" element= {<Profile user={currentUser}/>} />
+                <Route exact path="/profile/:id/edit" element= {<EditProfile user={currentUser}/>} />
+                <Route exact path="/game" element= {<Game/>}/>
                   
                 </Routes>
 

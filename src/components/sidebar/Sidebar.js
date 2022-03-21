@@ -40,10 +40,12 @@ export default function Sidebar(props) {
                         <span className="sidebarListItemText">Bookmarks</span>
                     </li>
 
+                    <Link className="feedLink" to={'/game'}>
                     <li className="sidebarListItem">
                         <SportsEsports className = "sidebarIcon"/>
                         <span className="sidebarListItemText">Games</span>
                     </li>
+                    </Link>
                     <li className="sidebarListItem" onClick={logout}>
                         <ExitToApp className = "sidebarIcon"/>
                         <span className="sidebarListItemText">Log Out</span>

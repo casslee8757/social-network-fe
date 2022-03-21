@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 // const BASE_URL = "http://localhost:8000"
-const BASE_URL = "https://casebook2022.herokuapp.com"
+const BASE_URL = "https://git.heroku.com/casebook2022.git"
 
 
 export default function Topbar(props) {
@@ -48,11 +48,19 @@ export default function Topbar(props) {
                     />
                     { userDetails.length !== 0 && (
                     <div className="inputResults">
-                        {userDetails.map( item => {
+                        {/* {
+                            userDetails.map(user => (
+                                <Link key={user._id} to={`/profile/${user._id}`} className="inputResultsList" >
+                                    <p>{user.username}</p>
+                                </Link>
+                            ))
+                        } */}
+
+                        {userDetails.map( user => {
                             return (
                                 <a className="inputResultsList" 
-                                    href={`/profile/${item._id}`}>
-                                    <p>{item.username}</p>
+                                    href={`/profile/${user._id}`}>
+                                    <p>{user.username}</p>
                                 </a>
                             )
                         })}
