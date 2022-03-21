@@ -12,31 +12,31 @@ const BASE_URL = "https://casebook2022.herokuapp.com"
 
 
 export default function Profile(props) {
-    const params = useParams();
+    // const params = useParams();
     
-    useEffect( () => {
-        console.log(params);
-        const fetchUsers = async () => {
+    // useEffect( () => {
+    //     console.log(params);
+    //     const fetchUsers = async () => {
 
-            try{
-                const res = await axios.get(`${BASE_URL}/users`, {userId: params})
-                console.log('res',res);
-            }catch(err){
-                console.log('fetch user error', err);
-            }
-        }
-        fetchUsers()
-    }, []) 
+    //         try{
+    //             const res = await axios.get(`${BASE_URL}/users`, {userId: params})
+    //             console.log('res',res);
+    //         }catch(err){
+    //             console.log('fetch user error', err);
+    //         }
+    //     }
+    //     fetchUsers()
+    // }, []) 
 
 
     return (
         <>
-            {!props.user._id 
+            {/* {!props.user._id 
              ?  
             <button className="rightbarFollowButton"></button>
             :
              <p></p>
-            }
+            } */}
             <div className="profile">
                 <div className="sidebar">
 
